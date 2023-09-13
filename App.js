@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { LogIn } from './src/components/Login.jsx'
+import { Home } from './src/components/Home'
 import { ContextProvider } from './contextState.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,14 +14,19 @@ export default function App() {
       <LogIn />
     );
   }
+  function HomeScreen() {
+    return (
+      <Home />
+    );
+  }
+
 
   return (
     <NavigationContainer>
-      <ContextProvider>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="LogIn" component={LogInScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
-      </ContextProvider>
     </NavigationContainer>
 
   );
