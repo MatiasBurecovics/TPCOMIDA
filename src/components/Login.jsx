@@ -37,7 +37,7 @@ export function LogIn() {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Usuario</Text>
+<Text style={styles.label}>Usuario</Text>
       <TextInput
         type="text"
         placeholder={'Email'}
@@ -50,7 +50,7 @@ export function LogIn() {
         }
       />
 
-      <Text>Contraseña</Text>
+<Text style={styles.label}>Contraseña</Text>
       <TextInput
         type="password"
         placeholder={'Password'}
@@ -66,7 +66,7 @@ export function LogIn() {
 
       <Button
         title={'Login'}
-        style={styles.input}
+        style={styles.button}
         disabled={botonHabilitado}
         onPress={() => {
           validacion()
@@ -79,17 +79,39 @@ export function LogIn() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+      flex: 1,
+      padding: 20,
+      justifyContent: 'center',
+      backgroundColor: '#FFFAF0',  
   },
   input: {
-    width: 200,
-    height: 44,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    marginBottom: 10,
+      height: 40,
+      borderColor: '#FF8C00', 
+      borderWidth: 1,
+      borderRadius: 5,
+      padding: 10,
+      marginVertical: 10,
+      backgroundColor: '#FFF5E1',  
+      color: '#FF8C00',  
+      fontSize: 16
   },
+  button: {
+      padding: 10,
+      backgroundColor: '#FF4500',  
+      borderRadius: 5,
+      alignItems: 'center',
+      marginTop: 20
+  },
+  buttonText: {
+      color: '#FFF',
+      fontSize: 18,
+      fontWeight: 'bold'
+  },
+  label: {
+      color: '#FF8C00',  
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginTop: 15,
+      marginBottom: 5
+  }
 });

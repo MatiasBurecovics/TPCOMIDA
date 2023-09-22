@@ -22,7 +22,7 @@ export default function App() {
   }
 function MenuScreen()
 {
-  <Menu/>
+  <Menu />
 }
 
   return (

@@ -65,7 +65,7 @@ export default function Plato({ plato, menu }) {
         <SafeAreaView style={styles.modal}>
           <Image
             style={styles.image}
-            source={{ uri: platoModal?.image ?? 'https://dclgroup.com.ar/wp-content/themes/unbound/images/No-Image-Found-400x264.png' }}
+            source={{ uri: platoModal?.image  }}
           />
           <Text style={styles.textChico}>Nombre: {platoModal?.title} </Text>
           <Text style={styles.textChico}>Precio: {platoModal?.pricePerServing} </Text>
@@ -139,56 +139,52 @@ export default function Plato({ plato, menu }) {
 
 }
 
+
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
-  textChico: {
-    marginBottom: 10,
-    textAlign: "center"
-  },
-  input: {
-    width: 10,
-    height: 44,
-    paddingTop: 22,
-  },
-  resultados: {
-    paddingTop: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modal: {
-    flex: 1,
-    margin: 20,
-    width: '90%',
-    height: '90%',
-    backgroundColor: "white",
-    borderRadius: 15,
-    padding: 35,
-    alignItems: "center",
-    justifyContent: 'center',
-  },
-  press: {
-    backgroundColor: "blue",
-    width: 65,
-    height: 27,
-    borderRadius: 5,
-  },
-  textPress: {
-    marginBottom: 10,
-    textAlign: "center",
-    color: "white",
-  },
-  image: {
-    width: '60%',
-    height: '40%',
-    borderRadius: 15,
-  }
+    modal: {
+        flex: 1,
+        margin: 20,
+        backgroundColor: '#FFFAF0',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    image: {
+        width: '80%',
+        height: '40%',
+        borderRadius: 10,
+        marginBottom: 15,
+    },
+    textChico: {
+        fontSize: 16,
+        color: '#FF8C00', 
+        marginBottom: 5,
+        textAlign: 'center',
+    },
+    press: {
+        marginTop: 20,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#FF4500', 
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    textPress: {
+        fontSize: 18,
+        color: '#FFF',
+    },
+    resultados: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+    },
+    input: {
+        marginVertical: 10,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#FFA07A',
+        color: '#FFF',
+    },
 });
