@@ -40,7 +40,7 @@ export function LogIn() {
 <Text style={styles.label}>Usuario</Text>
       <TextInput
         type="text"
-        placeholder={'Email'}
+        placeholder={'Mail'}
         style={styles.input}
         name="email"
         onChangeText={(text) => setContextState({
