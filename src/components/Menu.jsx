@@ -3,18 +3,18 @@ import React from 'react';
 import { useContextState } from '../../contextState.js';
 import Plato from './Plato.jsx';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export function Menu() {
-const navigation = useNavigation();
-const { contextState, setContextState } = useContextState();
+  const navigation = useNavigation();
+  const { contextState, setContextState } = useContextState();
 
-let acumulativoPrecio = 0;
-let promedioSalud = 0;
-let vegan = 0;
-let notVegan = 0;
-contextState.menu.forEach(e => {
+  let acumulativoPrecio = 0;
+  let promedioSalud = 0;
+  let vegan = 0;
+  let notVegan = 0;
+  contextState.menu.forEach(e => {
     acumulativoPrecio += e.pricePerServing;
     promedioSalud += e.healthScore;
     e.vegan ? vegan++ : notVegan++;
@@ -25,41 +25,67 @@ contextState.menu.forEach(e => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-<Text>Menu</Text>
-    <Button
-        style={styles.input}
-        title="Ir para atras"
-        onPress={() => {
- navigation.goBack();
-        }}
-    />
-    <Text>Acumulativo precio: {acumulativoPrecio}</Text>
-    <Text>Salud promedio: {contextState.menu.length >= 1 ? promedioSalud / contextState.menu.length : 0}</Text>
-    <Text>Platos veganos: {vegan}</Text>
-     <Text>Platos no veganos: {notVegan}</Text>
-    <FlatList
-        data={contextState?.menu}
-        keyExtractor={item => item.id}
-        renderItem={renderItem}
-      />
-    </SafeAreaView>
+<SafeAreaView style={styles.container}>
+  <Text style={styles.title}>Menu</Text>
+  <TouchableOpacity
+    style={styles.button}
+    onPress={async () => {
+      try {
+        await navigation.navigate("Home");
+      } catch (error) {
+        console.error("Navigation error:", error);
+      }
+    }}
+  >
+    <Text style={styles.buttonText}>Home</Text>
+  </TouchableOpacity>
+  <Text style={styles.infoText}>Acumulativo precio: {acumulativoPrecio}</Text>
+  <Text style={styles.infoText}>
+    Salud promedio: {contextState.menu.length >= 1 ? promedioSalud / contextState.menu.length : 0}
+  </Text>
+  <Text style={styles.infoText}>Platos veganos: {vegan}</Text>
+  <Text style={styles.infoText}>Platos no veganos: {notVegan}</Text>
+  <FlatList
+    data={contextState?.menu}
+    keyExtractor={(item) => item.id}
+    renderItem={renderItem}
+    style={styles.flatList}
+  />
+</SafeAreaView>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 22,
-    alignItems: "center",
+    backgroundColor: '#FFA500', 
+    padding: 20,
+    alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
-    width: 100,
-    height: 44,
-    padding: 10,
-    marginBottom: 10,
-    position: 'fixed',
-    left: 0
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFF', 
+    marginBottom: 20,
   },
+  button: {
+    backgroundColor: '#FF6347', 
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#FFF', 
+  },
+  infoText: {
+    fontSize: 18,
+    color: '#FFF', 
+    marginBottom: 10,
+  },
+  flatList: {
+    width: '100%',
+  },
+ 
 });

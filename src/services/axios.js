@@ -22,28 +22,28 @@ export const axiosLogIn = async (user) => {
 }
 
 export const axiosRecetas = async () => {
-
   try {
-    const response = await axiosClientApi.get(`/complexSearch?apiKey=${ApiKey}`);
+    const response = await axiosClientApi.get(`/complexSearch?apiKey=${ApiKey}`, {mode:'cors'});
     return response.data;
   } catch (exc) {
     throw error;
   }
 }
-export const getPlatosBySearchName = async (name) => {
-    return axiosClientApi.get(`/complexSearch/?apikey=${ApiKey}&s=${name}`)
-        .then((response) => {
-            return response.data;
-        }).catch((error) => {
-            throw error;
-        });
+
+export const getPlatosByNombre = async (busqueda) => {
+  try {
+    const response = await axiosClientApi.get(`/complexSearch?apiKey=${ApiKey}&query=${name}`, {mode:'cors'});
+    return response.data;
+  } catch (exc) {
+    throw error;
+  }
 }
 
 export const getPlatosById = async (id) => {
-    return axiosClientApi.get(`/complexSearch/?apikey=${ApiKey}&i=${id}`)
-        .then((response) => {
-            return response.data;
-        }).catch((error) => {
-            throw error;
-        });
+  try {
+    const response = await axiosClientApi.get(`/${id}/information?includeNutrition=false&apiKey=${ApiKey}`, {mode:'cors'});
+    return response.data;
+  } catch (exc) {
+    throw error;
+  }
 }
