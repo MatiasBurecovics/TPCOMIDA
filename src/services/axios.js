@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ApiKey = "efadfd8ef47e432c9e630a51440739f7";
+const ApiKey = "f6a06a2d8b1147378761f67e623802d0";
 
 const axiosClientLogin = axios.create({
   baseURL: "http://challenge-react.alkemy.org/",
@@ -23,16 +23,17 @@ export const axiosLogIn = async (user) => {
 
 export const axiosRecetas = async () => {
   try {
-    const response = await axiosClientApi.get(`/complexSearch?apiKey=${ApiKey}`, {mode:'cors'});
+    const response = await axiosClientApi.get(`/complexSearch?apiKey=${ApiKey}`);
     return response.data;
   } catch (exc) {
     throw error;
   }
 }
 
-export const getPlatosByNombre = async (busqueda) => {
+export const getPlatosByNombre = async (name) => {
+  
   try {
-    const response = await axiosClientApi.get(`/complexSearch?apiKey=${ApiKey}&query=${name}`, {mode:'cors'});
+    const response = await axiosClientApi.get(`/complexSearch?apiKey=${ApiKey}&query=${name}`);
     return response.data;
   } catch (exc) {
     throw error;
@@ -41,7 +42,7 @@ export const getPlatosByNombre = async (busqueda) => {
 
 export const getPlatosById = async (id) => {
   try {
-    const response = await axiosClientApi.get(`/${id}/information?includeNutrition=false&apiKey=${ApiKey}`, {mode:'cors'});
+    const response = await axiosClientApi.get(`/${id}/information?includeNutrition=false&apiKey=${ApiKey}`);
     return response.data;
   } catch (exc) {
     throw error;

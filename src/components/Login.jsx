@@ -16,7 +16,7 @@ export function LogIn() {
     setbotonHabilitado(true)
     if (!contextState?.user?.email || !contextState?.user?.password) {
         setbotonHabilitado(false)
-      Alert.alert("No se han ingresado los valores")
+      console.log("No se han ingresado los valores")
     }
     else {
       await axiosLogIn(contextState.user)
@@ -28,12 +28,13 @@ export function LogIn() {
         })
         .catch(() => {
             setbotonHabilitado(false)
-          Alert.alert("Su clave no esta autorizada")
+          console.log("Su clave no esta autorizada")
         });
     }
   }
   if (contextState.user.token) {
     navigation.navigate("Home")
+    console.log("usted ingreso")
   }
   return (
     <SafeAreaView style={styles.container}>

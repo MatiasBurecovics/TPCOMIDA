@@ -1,35 +1,38 @@
-import { StyleSheet, Text, Alert, Image, Modal, Button, Pressable } from 'react-native';
+import { StyleSheet, Text, Alert, Image, Modal, Pressable } from 'react-native';
 import { getPlatosById } from '../services/axios.js';
 import { useContextState, ActionTypes } from '../../contextState.js';
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect } from 'react';
+import { TouchableOpacity } from 'react-native';
 
 export default function Plato({ plato, menu }) {
   const { contextState, setContextState } = useContextState();
   const [modalVisible, setModalVisible] = useState(false);
   const [platoModal, setPlatoModal] = useState();
+  const [platoExistente, setPlatoExistente] = useState(false);
   let agregarVisible = false;
   let menuAux = contextState?.menu
   let vegan = 0
   let notVegan = 0
-
-  useEffect(async () => {
-    await getPlatosById(plato.id)
-      .then((res) => {
-        setPlatoModal(res)
-      })
-      .catch(() => {
-        Alert.alert("Fallo la busqueda de plato")
-      });
-  }, [])
+  
+  useEffect(() => {
+    const platoExiste = menuAux.find((item) => item.id === plato.id);
+    if (platoExiste) {
+      setPlatoExistente(true);
+    } else{
+      setPlatoExistente(false)
+    }
+  }, [plato.id, menuAux]);
 
   const disponibilidad = () => {
     contextState?.menu.forEach(e => { e?.vegan ? vegan++ : notVegan++ })
     if (vegan == 2 && platoModal.vegan) {  
       agregarVisible = true
+      console.log("no podes agregar mas platos veganos")
     } else if (notVegan == 2 && !platoModal.vegan) {
       agregarVisible = true
+      console.log("no podes agregar mas platos no veganos")
     }
     if (contextState?.menu.length == 4) {
       agregarVisible = true
@@ -40,6 +43,11 @@ export default function Plato({ plato, menu }) {
     await getPlatosById(itemId)
       .then((res) => {
         menuAux.push(res)
+        const platoExiste = menuAux.find((item)=>item.id === res.id)
+        if (platoExiste){
+          setPlatoExistente(true)
+        }
+        
       })
       .catch(() => {
         Alert.alert("Fallo la busqueda de plato")
@@ -47,11 +55,21 @@ export default function Plato({ plato, menu }) {
   }
 
   const addPlato = () => {
-    setContextState({
-      type: ActionTypes.AddPlato,
-      value: menuAux
-    });
-  }
+   
+
+    if (platoExistente){
+      setContextState({
+        type: ActionTypes.AddPlato,
+        value: menuAux
+      });
+    } else{
+      console.log('ya existe este plato en el menu')
+    }
+      
+    
+   
+      
+  };
 
   return (
     <SafeAreaView>
@@ -65,7 +83,7 @@ export default function Plato({ plato, menu }) {
         <SafeAreaView style={styles.modal}>
           <Image
             style={styles.image}
-            source={{ uri: platoModal?.image ?? 'https://dclgroup.com.ar/wp-content/themes/unbound/images/No-Image-Found-400x264.png' }}
+            source={{ uri: platoModal?.image  }}
           />
           <Text style={styles.textChico}>Nombre: {platoModal?.title} </Text>
           <Text style={styles.textChico}>Precio: {platoModal?.pricePerServing} </Text>
@@ -88,7 +106,9 @@ export default function Plato({ plato, menu }) {
         <>
           <SafeAreaView style={styles.resultados}>
             <Text style={styles.textChico}>{plato?.title} </Text>
-            <Button
+            <Text style={styles.buttonText}>Detalle</Text>
+            <TouchableOpacity
+            
               style={styles.input}
               title="Detalle"
               onPress={() => {
@@ -96,7 +116,8 @@ export default function Plato({ plato, menu }) {
                 setModalVisible(true);
               }}
             />
-            <Button
+              <Text style={styles.buttonText}>Eliminar</Text>
+            <TouchableOpacity
               style={styles.input}
               title="Eliminar"
               onPress={() => {
@@ -112,24 +133,39 @@ export default function Plato({ plato, menu }) {
         <>
           <SafeAreaView style={styles.resultados}>
             <Text style={styles.textChico}>{plato?.title} </Text>
-            <Button
+            <Text style={styles.buttonText}>
+              {platoExistente ? 'Ya esta en el menu' : 'Agregar'}
+            </Text>
+            <TouchableOpacity
               style={styles.input}
               title="Agregar"
-              disabled={agregarVisible}
+              disabled={agregarVisible || platoExistente} // Disable if already in menu
               onPress={() => {
-                disponibilidad()
-                if (!agregarVisible) {
-                  axiosPlatos(plato.id)
-                  addPlato()
+                disponibilidad();
+                if (!agregarVisible && !platoExistente) {
+                  axiosPlatos(plato.id);
+                  addPlato();
                 }
               }}
             />
-            <Button
+            <Text style={styles.buttonText}>Detalle</Text>
+            <TouchableOpacity
               style={styles.input}
               title="Detalle"
               onPress={async () => {
+              
+                getPlatosById(plato.id)
+                .then((res) => {
+                  
+                  setPlatoModal(res)
+                })
+                .catch(() => {
+                  Alert.alert("Fallo la busqueda de plato")
+                });
+            
                 setModalVisible(true);
               }}
+              
             />
           </SafeAreaView>
         </>
@@ -160,7 +196,7 @@ const styles = StyleSheet.create({
   },
   textChico: {
     fontSize: 16,
-    color: '#FFA500', 
+    color: '#000000', 
     marginBottom: 5,
     textAlign: 'center',
   },
@@ -187,5 +223,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#FF6347', 
     color: '#FFF', 
+  },
+  
+
+  buttonText: {
+    color: 'white', 
+    fontSize: 16, 
   },
 });
